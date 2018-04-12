@@ -36,6 +36,11 @@ public class DipendentiDaoImpl implements DipendentiDao {
     }
 
     @Override
+    public Dipendenti findByUsername(String username) {
+        return (Dipendenti) getSession().createCriteria(Dipendenti.class).add(Restrictions.eq("username", username)).list().get(0);
+    }
+
+    @Override
     public void saveDipendenti(Dipendenti dip) {
         getSession().persist(dip);
     }

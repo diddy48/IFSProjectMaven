@@ -4,7 +4,9 @@ import com.app.model.Dipendenti;
 import com.app.model.NC;
 import com.app.service.DipendentiService;
 import com.app.service.NCService;
+import java.security.Principal;
 import java.util.List;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,10 +38,23 @@ public class MainController {
 
     @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
     public String defaultPage(ModelMap model) {
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
+        model.addAttribute("dip", serviceDip.findByUsername(user.getUsername()));
+
         model.addAttribute("ncAperte", serviceNc.findNCbyFase("A"));
         model.addAttribute("ncIntermedie", serviceNc.findNCbyFase("I"));
         model.addAttribute("ncChiuse", serviceNc.findNCbyFase("C"));
-        return "hello";
+        return "home";
+    }
+
+    @RequestMapping(value = "/admin**", method = RequestMethod.GET)
+    public String adminPage(ModelMap model) {
+        List<Dipendenti> dipendenti = serviceDip.findAll();
+        model.addAttribute("title", "Spring Security + Hibernate Example");
+        model.addAttribute("message", "This page is for ROLE_ADMIN only!");
+        model.addAttribute("dipendenti", dipendenti);
+        return "adminHome";
     }
 
     @RequestMapping(value = "/showNC/{matricola}", method = RequestMethod.GET)
@@ -50,15 +66,6 @@ public class MainController {
         model.addAttribute("ncResponsabile", serviceNc.findNCResponsabileById(matricola));
         model.addAttribute("ncMembro", serviceNc.findNCAppartenereById(matricola));
         return "nc";
-    }
-
-    @RequestMapping(value = "/admin**", method = RequestMethod.GET)
-    public String adminPage(ModelMap model) {
-        List<Dipendenti> dipendenti = serviceDip.findAll();
-        model.addAttribute("title", "Spring Security + Hibernate Example");
-        model.addAttribute("message", "This page is for ROLE_ADMIN only!");
-        model.addAttribute("dipendenti", dipendenti);
-        return "admin";
     }
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)

@@ -26,6 +26,11 @@ public class DipendentiServiceImpl implements DipendentiService {
     }
 
     @Override
+    public Dipendenti findByUsername(String username) {
+        return dao.findByUsername(username);
+    }
+
+    @Override
     public void saveDipedenti(Dipendenti dip) {
         dao.saveDipendenti(dip);
     }

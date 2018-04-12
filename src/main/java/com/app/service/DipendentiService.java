@@ -11,6 +11,7 @@ import com.app.model.Dipendenti;
  
 public interface DipendentiService {
     Dipendenti findById(int id);
+    Dipendenti findByUsername(String username);
     void saveDipedenti(Dipendenti dip);
     void deleteDipendenti(int id);
     Dipendenti findDipendenti(String mail,String password);
