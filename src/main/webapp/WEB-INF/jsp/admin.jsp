@@ -4,12 +4,10 @@
     <head>
         <title>Gestione Nc: Dipedenti</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-
     </head>
     <body>
         <h1>Title : ${title}</h1>
         <h1>Message : ${message}</h1>
-
         <c:url value="/logout" var="logoutUrl" />
         <form action="${logoutUrl}" method="post" id="logoutForm">
             <input type="hidden" name="${_csrf.parameterName}"
@@ -59,7 +57,7 @@
         
         <c:if test="${pageContext.request.userPrincipal.name != null}">
             <h2>
-                <a href="javascript:formSubmit()"> Logout</a>
+                <a href="javascript:formSubmit()"> Esci</a>
             </h2>
         </c:if>
 

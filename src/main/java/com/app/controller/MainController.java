@@ -34,15 +34,11 @@ public class MainController {
     NCService serviceNc;
 
     @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
-    public ModelAndView defaultPage() {
-        ModelAndView model = new ModelAndView();
-        model.addObject("message", "This is default page!");
-        model.addObject("ncAperte",serviceNc.findNCbyFase("A"));
-        model.addObject("ncIntermedie",serviceNc.findNCbyFase("I"));
-        model.addObject("ncChiuse",serviceNc.findNCbyFase("C"));
-        model.setViewName("hello");
-        return model;
-
+    public String defaultPage(ModelMap model) {
+        model.addAttribute("ncAperte", serviceNc.findNCbyFase("A"));
+        model.addAttribute("ncIntermedie", serviceNc.findNCbyFase("I"));
+        model.addAttribute("ncChiuse", serviceNc.findNCbyFase("C"));
+        return "hello";
     }
 
     @RequestMapping(value = "/showNC/{matricola}", method = RequestMethod.GET)
@@ -55,39 +51,27 @@ public class MainController {
         model.addAttribute("ncMembro", serviceNc.findNCAppartenereById(matricola));
         return "nc";
     }
-    
+
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
-    public ModelAndView adminPage() {
-
+    public String adminPage(ModelMap model) {
         List<Dipendenti> dipendenti = serviceDip.findAll();
-        ModelAndView model = new ModelAndView();
-        model.addObject("title", "Spring Security + Hibernate Example");
-        model.addObject("message", "This page is for ROLE_ADMIN only!");
-        model.addObject("dipendenti", dipendenti);
-        model.setViewName("admin");
-
-        return model;
-
+        model.addAttribute("title", "Spring Security + Hibernate Example");
+        model.addAttribute("message", "This page is for ROLE_ADMIN only!");
+        model.addAttribute("dipendenti", dipendenti);
+        return "admin";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-            @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
-
-        ModelAndView model = new ModelAndView();
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String login(@RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request, ModelMap model) {
         if (error != null) {
-            model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+            model.addAttribute("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
         }
-
         if (logout != null) {
-            model.addObject("msg", "You've been logged out successfully.");
+            model.addAttribute("msg", "You've been logged out successfully.");
         }
-        model.setViewName("login");
-
-        return model;
-
+        return "login";
     }
-    
 
     // customize the error message
     private String getErrorMessage(HttpServletRequest request, String key) {
@@ -100,7 +84,7 @@ public class MainController {
         } else if (exception instanceof LockedException) {
             error = exception.getMessage();
         } else {
-            error = "Invalid username and password!";
+            error = "You are not authorized to access!";
         }
 
         return error;
@@ -108,24 +92,15 @@ public class MainController {
 
     // for 403 access denied page
     @RequestMapping(value = "/403", method = RequestMethod.GET)
-    public ModelAndView accesssDenied() {
-
-        ModelAndView model = new ModelAndView();
-
+    public String acceddDenied(ModelMap model) {
         // check if user is login
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
             System.out.println(userDetail);
-
-            model.addObject("username", userDetail.getUsername());
-
+            model.addAttribute("username", userDetail.getUsername());
         }
-
-        model.setViewName("403");
-        return model;
-
+        return "403";
     }
-    
 
 }

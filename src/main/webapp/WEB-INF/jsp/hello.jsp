@@ -7,8 +7,15 @@
     </head>
     <body>
         <div class="container-fluid">
-            <h2>Accedi per visualizzare le NC</h2>
-            <a href="<c:url value="/login"/>">Accedi</a>
+            <h1>Benvenuto nel software di gestione delle Non Conformità</h1>
+            <sec:authorize access="isAnonymous()">
+                <div class="row">
+                    <div class="col-md-8">
+                        <br/>
+                        <h3><a href="<c:url value="/login"/>">Accedi</a> per visualizzare le NC</h3>
+                    </div>
+                </div>
+            </sec:authorize>
             <sec:authorize access="hasRole('ROLE_USER')">
                 <div class="row">
                     <div class="col-md-7">
@@ -26,8 +33,8 @@
 
                         <c:if test="${pageContext.request.userPrincipal.name != null}">
                             <h2>
-                                User : ${pageContext.request.userPrincipal.name} | <a
-                                    href="javascript:formSubmit()"> Logout</a>
+                                Utente : ${pageContext.request.userPrincipal.name} | <a
+                                    href="javascript:formSubmit()"> Esci</a>
                             </h2>
                         </c:if>
                     </div>

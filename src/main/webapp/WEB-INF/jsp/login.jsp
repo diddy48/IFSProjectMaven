@@ -3,6 +3,8 @@
 <html>
 <head>
 <title>Login Page</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    
 <style>
 .error {
 	padding: 15px;
@@ -56,11 +58,11 @@
 			<table>
 				<tr>
 					<td>User:</td>
-					<td><input type='text' name='username'></td>
+					<td><input type='text' name='username' required></td>
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type='password' name='password' /></td>
+					<td><input type='password' name='password' required/></td>
 				</tr>
 				<tr>
 					<td colspan='2'><input name="submit" type="submit"
