@@ -55,12 +55,19 @@ public class MainController {
         return "adminHome";
     }
 
-    //@RequestMapping(value = "/showNC/{matricola}", method = RequestMethod.GET)
     @RequestMapping(value = "/showNC", method = RequestMethod.GET)
-    public String listNC(/*@PathVariable("matricola") int matricola, */ModelMap model,Principal principal) {
+    public String listNC(ModelMap model, Principal principal, @RequestParam(value = "matricola", required = false) String matricola) {
         //Dipendenti dipendente = serviceDip.findById(matricola);
-        User user = (User) principal;
-        Dipendenti dipendente = serviceDip.findByUsername(user.getUsername());
+        Dipendenti dipendente;
+        if (matricola == null) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            //UserDetails user = (UserDetails) principal;
+            UserDetails user = (UserDetails) auth.getPrincipal();
+            dipendente = serviceDip.findByUsername(user.getUsername());
+            return "redirect:/showNC/"+dipendente.getMatricola();
+        } else {
+            dipendente = serviceDip.findById(Integer.parseInt(matricola));
+        }
         model.addAttribute("dipendente", dipendente);
         model.addAttribute("ncLeader", dipendente.getNcLeader());
         model.addAttribute("ncRichiede", dipendente.getNcRichiede());
@@ -91,7 +98,7 @@ public class MainController {
             error = "Invalid username and password!";
         } else if (exception instanceof LockedException) {
             error = exception.getMessage();
-        } else {
+        }else {
             error = "You are not authorized to access!";
         }
 
