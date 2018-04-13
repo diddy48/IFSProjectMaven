@@ -56,12 +56,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/showNC", method = RequestMethod.GET)
-    public String listNC(ModelMap model, Principal principal, @RequestParam(value = "matricola", required = false) String matricola) {
-        //Dipendenti dipendente = serviceDip.findById(matricola);
+    public String listNC(ModelMap model, Authentication auth, @RequestParam(value = "matricola", required = false) String matricola) {
         Dipendenti dipendente;
         if (matricola == null) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            //UserDetails user = (UserDetails) principal;
             UserDetails user = (UserDetails) auth.getPrincipal();
             dipendente = serviceDip.findByUsername(user.getUsername());
             return "redirect:/showNC/"+dipendente.getMatricola();
