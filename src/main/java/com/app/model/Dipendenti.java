@@ -19,7 +19,9 @@ import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -35,12 +37,13 @@ public class Dipendenti implements Serializable {
     private String nome;
     private String cognome;
     private Date dataNascita;
-    private String username;
+    //private String username;
+    private User username;
     private Set<NC> ncLeader = new HashSet();
     private Set<NC> ncRichiede = new HashSet();
     private Set<Appartenere> ncAppartiene = new HashSet();
     private Set<Responsabilita> ncResponsabile = new HashSet();
-    
+
     public Dipendenti() {
     }
 
@@ -91,12 +94,22 @@ public class Dipendenti implements Serializable {
         this.dataNascita = dataNascita;
     }
 
-    @Column(name = "username", nullable = false, length = 45)
+    /*@Column(name = "username", nullable = false, length = 45)
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
+        this.username = username;
+    }*/
+
+    @OneToOne//(fetch = FetchType.EAGER, mappedBy = "usernameDip", cascade = CascadeType.ALL)
+    @JoinColumn(name = "username")
+    public User getUsername() {
+        return username;
+    }
+
+    public void setUsername(User username) {
         this.username = username;
     }
 

@@ -38,10 +38,8 @@ public class MainController {
 
     @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
     public String defaultPage(ModelMap model) {
-
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-        model.addAttribute("dip", serviceDip.findByUsername(user.getUsername()));
-
+        //UserDetails user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //model.addAttribute("dip", serviceDip.findByUsername("4DM1N"));
         model.addAttribute("ncAperte", serviceNc.findNCbyFase("A"));
         model.addAttribute("ncIntermedie", serviceNc.findNCbyFase("I"));
         model.addAttribute("ncChiuse", serviceNc.findNCbyFase("C"));
@@ -57,14 +55,17 @@ public class MainController {
         return "adminHome";
     }
 
-    @RequestMapping(value = "/showNC/{matricola}", method = RequestMethod.GET)
-    public String listNC(@PathVariable("matricola") int matricola, ModelMap model) {
-        Dipendenti dipendente = serviceDip.findById(matricola);
+    //@RequestMapping(value = "/showNC/{matricola}", method = RequestMethod.GET)
+    @RequestMapping(value = "/showNC", method = RequestMethod.GET)
+    public String listNC(/*@PathVariable("matricola") int matricola, */ModelMap model,Principal principal) {
+        //Dipendenti dipendente = serviceDip.findById(matricola);
+        User user = (User) principal;
+        Dipendenti dipendente = serviceDip.findByUsername(user.getUsername());
         model.addAttribute("dipendente", dipendente);
         model.addAttribute("ncLeader", dipendente.getNcLeader());
         model.addAttribute("ncRichiede", dipendente.getNcRichiede());
-        model.addAttribute("ncResponsabile", serviceNc.findNCResponsabileById(matricola));
-        model.addAttribute("ncMembro", serviceNc.findNCAppartenereById(matricola));
+        model.addAttribute("ncResponsabile", serviceNc.findNCResponsabileById(dipendente.getMatricola()));
+        model.addAttribute("ncMembro", serviceNc.findNCAppartenereById(dipendente.getMatricola()));
         return "nc";
     }
 
