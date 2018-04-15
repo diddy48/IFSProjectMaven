@@ -40,8 +40,6 @@ public class MainController {
 
     @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
     public String defaultPage(ModelMap model) {
-        //UserDetails user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //model.addAttribute("dip", serviceDip.findByUsername("4DM1N"));
         model.addAttribute("ncAperte", serviceNc.findNCbyFase("A"));
         model.addAttribute("ncIntermedie", serviceNc.findNCbyFase("I"));
         model.addAttribute("ncChiuse", serviceNc.findNCbyFase("C"));
