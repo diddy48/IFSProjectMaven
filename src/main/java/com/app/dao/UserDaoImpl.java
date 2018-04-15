@@ -1,5 +1,6 @@
 package com.app.dao;
 
+import com.app.model.Dipendenti;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.app.model.User;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -34,6 +36,11 @@ public class UserDaoImpl implements UserDao {
             return null;
         }
 
+    }
+
+    @Override
+    public Dipendenti findByUser(User user) {
+        return (Dipendenti) getSession().createCriteria(Dipendenti.class).add(Restrictions.eq("username", user.getUsername())).uniqueResult();
     }
 
 }

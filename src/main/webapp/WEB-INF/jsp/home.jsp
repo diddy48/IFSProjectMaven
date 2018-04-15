@@ -145,7 +145,7 @@
                 </div>
             </sec:authorize>
             <sec:authorize access="!hasRole('ROLE_ADMIN') && !isAnonymous()">
-                <h2>Clicca <a href="<c:url value="/showNC"/>">qui</a> per vedere le tue Non Conformità</h2>
+                <h2>Clicca <a href="<c:url value="/showNC/${dip.matricola}"/>">qui</a> per vedere le tue Non Conformità</h2>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <br/>

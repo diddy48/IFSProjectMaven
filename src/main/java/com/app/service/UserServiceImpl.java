@@ -6,6 +6,7 @@
 package com.app.service;
 
 import com.app.dao.UserDao;
+import com.app.model.Dipendenti;
 import com.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUserName(String username) {
         return dao.findByUserName(username);
+    }
+
+    @Override
+    public Dipendenti findByUser(User user) {
+        return dao.findByUser(user);
     }
 }

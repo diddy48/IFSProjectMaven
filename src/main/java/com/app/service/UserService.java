@@ -5,6 +5,7 @@
  */
 package com.app.service;
 
+import com.app.model.Dipendenti;
 import com.app.model.User;
 import java.util.List;
 
@@ -15,4 +16,5 @@ import java.util.List;
 public interface UserService {
 
     User findByUserName(String username);
+    Dipendenti findByUser(User user);
 }

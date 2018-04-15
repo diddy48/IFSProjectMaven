@@ -4,6 +4,7 @@ import com.app.model.Dipendenti;
 import com.app.model.NC;
 import com.app.service.DipendentiService;
 import com.app.service.NCService;
+import com.app.service.UserService;
 import java.security.Principal;
 import java.util.List;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -46,7 +48,7 @@ public class MainController {
         return "home";
     }
 
-    @RequestMapping(value = "/admin**", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin**", method = RequestMethod.GET)   
     public String adminPage(ModelMap model) {
         List<Dipendenti> dipendenti = serviceDip.findAll();
         model.addAttribute("title", "Spring Security + Hibernate Example");
@@ -56,12 +58,13 @@ public class MainController {
     }
 
     @RequestMapping(value = "/showNC", method = RequestMethod.GET)
-    public String listNC(ModelMap model, Authentication auth, @RequestParam(value = "matricola", required = false) String matricola) {
+    //@ResponseBody
+    public String listNC(ModelMap model,Principal principal, @RequestParam(value = "matricola", required = false) String matricola) {
         Dipendenti dipendente;
         if (matricola == null) {
-            UserDetails user = (UserDetails) auth.getPrincipal();
-            dipendente = serviceDip.findByUsername(user.getUsername());
-            return "redirect:/showNC/"+dipendente.getMatricola();
+            //org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            dipendente = serviceDip.findByUsername(principal.getName());
+            model.addAttribute("dip", dipendente);
         } else {
             dipendente = serviceDip.findById(Integer.parseInt(matricola));
         }
@@ -95,7 +98,7 @@ public class MainController {
             error = "Invalid username and password!";
         } else if (exception instanceof LockedException) {
             error = exception.getMessage();
-        }else {
+        } else {
             error = "You are not authorized to access!";
         }
 
