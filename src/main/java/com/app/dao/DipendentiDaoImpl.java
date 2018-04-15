@@ -37,8 +37,7 @@ public class DipendentiDaoImpl implements DipendentiDao {
 
     @Override
     public Dipendenti findByUsername(String username) {
-        getSession().flush();
-        return (Dipendenti) getSession().createCriteria(Dipendenti.class).add(Restrictions.eq("username", username)).list().get(0);
+        return (Dipendenti) getSession().createCriteria(Dipendenti.class).add(Restrictions.eq("username", username)).uniqueResult();
     }
 
     @Override
@@ -66,7 +65,7 @@ public class DipendentiDaoImpl implements DipendentiDao {
         if (criteria.list().isEmpty()) {
             return null;
         }
-        return (Dipendenti) criteria.list().get(0);
+        return (Dipendenti) criteria.uniqueResult();
     }
 
 }

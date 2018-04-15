@@ -37,8 +37,7 @@ public class Dipendenti implements Serializable {
     private String nome;
     private String cognome;
     private Date dataNascita;
-    //private String username;
-    private User username;
+    private com.app.model.User username;
     private Set<NC> ncLeader = new HashSet();
     private Set<NC> ncRichiede = new HashSet();
     private Set<Appartenere> ncAppartiene = new HashSet();
@@ -103,8 +102,8 @@ public class Dipendenti implements Serializable {
         this.username = username;
     }*/
 
-    @OneToOne//(fetch = FetchType.EAGER, mappedBy = "usernameDip", cascade = CascadeType.ALL)
-    @JoinColumn(name = "username")
+    @OneToOne(cascade = CascadeType.ALL)//(fetch = FetchType.EAGER, mappedBy = "usernameDip", cascade = CascadeType.ALL)
+    @JoinColumn(name = "Username")
     public User getUsername() {
         return username;
     }

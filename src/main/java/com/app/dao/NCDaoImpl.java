@@ -60,7 +60,7 @@ public class NCDaoImpl implements NCDao {
         if (criteria1.list().isEmpty()) {
             return nc;
         }
-        Dipendenti dipNC = (Dipendenti) criteria1.list().get(0);
+        Dipendenti dipNC = (Dipendenti) criteria1.uniqueResult();
         Criteria criteria2 = getSession().createCriteria(Responsabilita.class).add(Restrictions.eq("pkResponsabilita.responsabile", dipNC));
         List<Responsabilita> resp = criteria2.list();
         if (resp.isEmpty()) {
@@ -83,7 +83,7 @@ public class NCDaoImpl implements NCDao {
         if (criteria1.list().isEmpty()) {
             return nc;
         }
-        Dipendenti dipNC = (Dipendenti) criteria1.list().get(0);
+        Dipendenti dipNC = (Dipendenti) criteria1.uniqueResult();
         Criteria criteria2 = getSession().createCriteria(Appartenere.class).add(Restrictions.eq("pkAppartenere.membro", dipNC));
         List<Appartenere> resp = criteria2.list();
         if (resp.isEmpty()) {

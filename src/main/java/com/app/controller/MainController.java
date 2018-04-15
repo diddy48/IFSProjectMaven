@@ -104,7 +104,7 @@ public class MainController {
 
     // for 403 access denied page
     @RequestMapping(value = "/403", method = RequestMethod.GET)
-    public String acceddDenied(ModelMap model) {
+    public String accessDenied(ModelMap model) {
         // check if user is login
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {

@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class User {
 
     private String username;
-    private Dipendenti usernameDip;
+    //private Dipendenti usernameDip;
     private String password;
     private boolean enabled;
     private Set<UserRole> userRole = new HashSet<UserRole>(0);
@@ -37,16 +37,7 @@ public class User {
         this.enabled = enabled;
         this.userRole = userRole;
     }
-
-    public User(String username, Dipendenti usernameDip, String password, boolean enabled,Set<UserRole> userRole) {
-        this.username = username;
-        this.usernameDip = usernameDip;
-        this.password = password;
-        this.enabled = enabled;
-        this.userRole = userRole;
-    }
     
-
     @Id
     @Column(name = "username", unique = true, nullable = false, length = 45)
     public String getUsername() {
@@ -59,14 +50,14 @@ public class User {
 
     //@PrimaryKeyJoinColumn
     //@OneToOne(fetch = FetchType.LAZY)
-    @OneToOne(mappedBy = "username")
+    /*@OneToOne(mappedBy = "username")
     public Dipendenti getUsernameDip() {
         return usernameDip;
     }
 
     public void setUsernameDip(Dipendenti usernameDip) {
         this.usernameDip = usernameDip;
-    }
+    }*/
 
     @Column(name = "password", nullable = false, length = 60)
     public String getPassword() {
